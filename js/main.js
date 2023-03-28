@@ -1,10 +1,35 @@
-const knightFactory = (x, y, distance = null, visited = null) => {
+function createQueue() {
+  const elements = [];
+
+  const el = () => elements;
+
+  function enqueue(element) {
+    return elements.push(element);
+  }
+
+  function dequeue() {
+    return elements.shift();
+  }
+
+  function isEmpty() {
+    return elements.length === 0;
+  }
+
   return {
-    x: null,
-    y: null,
+    elements,
+    enqueue,
+    dequeue,
+    isEmpty,
+  };
+}
+
+const knightFactory = (x, y, distance = null, visited = false, prev = null) => {
+  return {
+    x,
+    y,
     distance,
     visited,
-    neighbors: [],
+    prev,
   };
 };
 
@@ -36,59 +61,58 @@ const getLegalMoves = (knightPosX, knightPosY) => {
   return legalMoves;
 };
 
-const knightGraph = (board, moves) => {
-  // Create an empty graph object to represent the board.
-  let graph = {};
+const knightMoves = (startPos, endPos) => {
+  const visited = new Set();
 
-  // Iterate over each square on the board.
-  for (let x = 0; x < board.length; x++) {
-    for (let y = 0; y < board[x].length; y++) {
-      // Create a new knight node for the current square.
-      const currentNode = knightFactory(x, y);
+  const startingX = startPos[0];
+  const startingY = startPos[1];
+  let startingKnight = knightFactory(startingX, startingY, 0, true, null);
+  visited.add(`${startingX}, ${startingY}`);
 
-      // Calculate the legal moves for the current square.
-      moves = getLegalMoves(x, y);
+  // Create a queue using the queue function and enqueue the startingKnight object.
+  const queue = createQueue();
+  queue.enqueue(startingKnight);
 
-      // Add each legal move as a neighbor to the current node.
-      for (const move of moves) {
-        const neighborX = move.x;
-        const neighborY = move.y;
+  while (!queue.isEmpty()) {
+    const current = queue.dequeue();
 
-        // Look up the neighbor node in the graph using its coordinates.
-        const neighborNode = graph[`${neighborX},${neighborY}`];
-
-        // If the neighbor node hasn't been created yet, create it.
-        if (!neighborNode) {
-          graph[`${neighborX},${neighborY}`] = knightFactory(
-            neighborX,
-            neighborY,
-          );
-        }
-
-        // Add the neighbor node to the current node's neighbors.
-        currentNode.neighbors.push(graph[`${neighborX},${neighborY}`]);
+    if (current.x === endPos[0] && current.y === endPos[1]) {
+      const path = [];
+      let node = current;
+      while (node !== null) {
+        path.unshift([node.x, node.y]);
+        node = node.prev;
       }
+      const distance = path.length;
+      const message = `You made it in ${distance} moves! Here's your path:\n${path.join(
+        '\n',
+      )}\n`;
+      return message;
+    } else {
+      const checkLegalMoves = getLegalMoves(current.x, current.y);
 
-      // Add the current node to the graph.
-      graph[`${x},${y}`] = currentNode;
+      for (let move of checkLegalMoves) {
+        const newKnight = knightFactory(
+          move.x,
+          move.y,
+          current.distance + 1,
+          true,
+        );
+
+        const newPosKey = `${move.x}, ${move.y}`;
+        if (!visited.has(newPosKey)) {
+          visited.add(newPosKey);
+          newKnight.prev = current;
+          queue.enqueue(newKnight);
+        }
+      }
     }
   }
 
-  // Return the completed graph object.
-  return graph;
+  return null;
 };
 
-// Helpers
-const visualizeSolution = path => {
-  // Create an empty chessboard
-  const chessBoard = createGameBoard();
-
-  // Mark each square in the path with an X
-  for (let i = 0; i < path.length; i++) {
-    const pos = path[i];
-    chessBoard[pos.x][pos.y] = 'X';
-  }
-
-  // Print the chessboard to the console
-  console.log(chessBoard.map(row => row.join(' ')).join('\n'));
-};
+const testPath = knightMoves([0, 0], [1, 2]); // ==[[0, 0],[1, 2],];
+const testPath2 = knightMoves([0, 0], [3, 3]); // == [[0, 0],[1, 2],[3, 3]];
+const testPath3 = knightMoves([3, 3], [0, 0]); // == [[3, 3],[1, 2],[0, 0],];
+console.log(testPath, testPath2, testPath3);
