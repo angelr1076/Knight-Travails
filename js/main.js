@@ -46,7 +46,7 @@ const showModal = message => {
 };
 
 const closeModal = () => {
-  const modalContainer = document.getElementById('modalContainer');
+  const modalContainer = document.querySelector('#modalContainer');
   modalContainer.style.display = 'none';
 };
 
@@ -72,7 +72,7 @@ const findPath = () => {
   const path = message.split('\n').slice(1, -1);
   for (let pos of path) {
     const [x, y] = pos.split(',').map(Number);
-    const square = document.getElementById(`${x},${y}`);
+    const square = document.querySelector(`#${x},${y}`);
     square.style.backgroundColor = '#0080ff';
   }
 };
