@@ -1,3 +1,83 @@
+const chessboard = document.querySelector('#chessboard');
+const submitPos = document.querySelector('#submitPos');
+const resetPage = document.querySelector('#resetPos');
+const startDiv = document.querySelector('#startPosition');
+const endDiv = document.querySelector('#endPosition');
+const modalContainer = document.querySelector('#modalContainer');
+const modalContent = document.querySelector('#modalContent');
+const modalButton = document.querySelector('#modalButton');
+let startPos = null;
+let endPos = null;
+
+// Chessboard DOM
+const chessBoardDOM = () => {
+  const squares = Array.from({ length: 8 }, (_, row) =>
+    Array.from({ length: 8 }, (_, col) => [row, col]),
+  ).flat();
+
+  squares.forEach(([row, col]) => {
+    const square = document.createElement('div');
+    square.id = `${row},${col}`;
+    if ((row + col) % 2 === 0) {
+      square.className = 'white';
+    } else {
+      square.className = 'black';
+    }
+    square.addEventListener('click', () => {
+      if (startPos === null) {
+        startPos = [row, col];
+        startDiv.innerHTML = `[${startPos}]`;
+        square.style.backgroundColor = 'rgba(152, 251, 152, 0.7)';
+      } else if (endPos === null) {
+        endPos = [row, col];
+        endDiv.innerHTML = `[${endPos}]`;
+        square.style.backgroundColor = 'rgba(240, 128, 128, 1)';
+      }
+    });
+    chessboard.appendChild(square);
+  });
+};
+
+const refreshPage = () => window.location.reload();
+
+const showModal = message => {
+  modalContent.textContent = message;
+  modalContainer.style.display = 'block';
+};
+
+const closeModal = () => {
+  const modalContainer = document.getElementById('modalContainer');
+  modalContainer.style.display = 'none';
+};
+
+const findPath = () => {
+  const startPosition = startPos;
+  const endPosition = endPos;
+
+  if (startPosition === null || endPosition === null) {
+    showModal('Please select start and end positions.');
+    return;
+  }
+
+  const message = knightMoves(startPosition, endPosition);
+
+  if (message === null) {
+    showModal('No path found!');
+    return;
+  }
+
+  showModal(message);
+
+  // Highlight the squares on the path
+  const path = message.split('\n').slice(1, -1);
+  for (let pos of path) {
+    const [x, y] = pos.split(',').map(Number);
+    const square = document.getElementById(`${x},${y}`);
+    square.style.backgroundColor = '#0080ff';
+  }
+};
+
+// Algorithm logic
 function createQueue() {
   const elements = [];
 
@@ -112,7 +192,9 @@ const knightMoves = (startPos, endPos) => {
   return null;
 };
 
-const testPath = knightMoves([0, 0], [1, 2]); // ==[[0, 0],[1, 2],];
-const testPath2 = knightMoves([0, 0], [3, 3]); // == [[0, 0],[1, 2],[3, 3]];
-const testPath3 = knightMoves([3, 3], [0, 0]); // == [[3, 3],[1, 2],[0, 0],];
-console.log(testPath, testPath2, testPath3);
+chessBoardDOM();
+
+// Event listeners
+submitPos.addEventListener('click', findPath);
+resetPage.addEventListener('click', refreshPage);
+modalContainer.addEventListener('click', closeModal);
