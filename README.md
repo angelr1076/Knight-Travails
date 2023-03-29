@@ -1,5 +1,7 @@
 # Knights Travails
 
+[Play Knights Travails](https://angelr1076.github.io/Knight-Travails/)
+
 ## Introduction
 
 For this project, we'll use a data structure that’s similar (but not identical) to a binary tree - a graph.
