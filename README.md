@@ -48,6 +48,6 @@ You can think of the board as having 2-dimensional coordinates. Your function wo
 
 ## Gameplay
 
-[gameplay screenshot](./assets/gameplay_img.png)
+![gameplay screenshot](./assets/gameplay_img.png 'Image of Knights Travail gameplay')
 
 Gameplay is simple: start by clicking on the chessboard square for the starting point, then select the end point and press the "Find Path" button to reveal your path. Reset the gameboard by pressing the "Reset" button at any time.
