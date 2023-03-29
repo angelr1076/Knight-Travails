@@ -72,7 +72,7 @@ const findPath = () => {
   const path = message.split('\n').slice(1, -1);
   for (let pos of path) {
     const [x, y] = pos.split(',').map(Number);
-    const square = document.querySelector(`#${x},${y}`);
+    const square = document.getElementById(`${x},${y}`);
     square.style.backgroundColor = '#0080ff';
   }
 };
@@ -96,7 +96,7 @@ function createQueue() {
   }
 
   return {
-    elements,
+    el,
     enqueue,
     dequeue,
     isEmpty,
