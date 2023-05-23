@@ -45,8 +45,6 @@ The entire script creates a game board and a knight.
 
 All possible moves the knight can make are children in a tree. Moves are not allowed to go off the board.  The script takes care of this.
 
-Decide which search algorithm is best to use for this case. Hint: one of them could be a potentially infinite series.
-
 ## Gameplay
 
 Gameplay is simple: start by clicking on the chessboard square for the starting point, then select the end point and press the "Find Path" button to reveal your path. Reset the gameboard by pressing the "Reset" button at any time.
