@@ -83,17 +83,17 @@ const createQueue = () => {
 
   const el = () => elements;
 
-  function enqueue(element) {
+  const enqueue = element => {
     return elements.push(element);
-  }
+  };
 
-  function dequeue() {
+  const dequeue = () => {
     return elements.shift();
-  }
+  };
 
-  function isEmpty() {
+  const isEmpty = () => {
     return elements.length === 0;
-  }
+  };
 
   return {
     el,
