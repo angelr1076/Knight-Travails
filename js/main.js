@@ -78,7 +78,7 @@ const findPath = () => {
 };
 
 // Algorithm logic
-function createQueue() {
+const createQueue = () => {
   const elements = [];
 
   const el = () => elements;
@@ -101,7 +101,7 @@ function createQueue() {
     dequeue,
     isEmpty,
   };
-}
+};
 
 const knightFactory = (x, y, distance = null, visited = false, prev = null) => {
   return {
