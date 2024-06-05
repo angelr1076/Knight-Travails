@@ -12,16 +12,16 @@ let endPos = null;
 // Chessboard DOM
 const chessBoardDOM = () => {
   const squares = Array.from({ length: 8 }, (_, row) =>
-    Array.from({ length: 8 }, (_, col) => [row, col]),
+    Array.from({ length: 8 }, (_, col) => [row, col])
   ).flat();
 
   squares.forEach(([row, col]) => {
     const square = document.createElement('div');
     square.id = `${row},${col}`;
     if ((row + col) % 2 === 0) {
-      square.className = 'white';
+      square.className = 'light-brown';
     } else {
-      square.className = 'black';
+      square.className = 'brown';
     }
     square.addEventListener('click', () => {
       if (startPos === null) {
@@ -135,7 +135,7 @@ const getLegalMoves = (knightPosX, knightPosY) => {
   ];
 
   legalMoves = legalMoves.filter(
-    move => move.x >= 0 && move.x <= 7 && move.y >= 0 && move.y <= 7,
+    move => move.x >= 0 && move.x <= 7 && move.y >= 0 && move.y <= 7
   );
 
   return legalMoves;
@@ -165,7 +165,7 @@ const knightMoves = (startPos, endPos) => {
       }
       const distance = path.length;
       const message = `You made it in ${distance} moves! Here's your path:\n${path.join(
-        '\n',
+        '\n'
       )}\n`;
       return message;
     } else {
@@ -176,7 +176,7 @@ const knightMoves = (startPos, endPos) => {
           move.x,
           move.y,
           current.distance + 1,
-          true,
+          true
         );
 
         const newPosKey = `${move.x}, ${move.y}`;
