@@ -172,3 +172,34 @@ button {
   font-size: 2rem;
   color: var(--black);
 }
+
+@media screen and (max-width: 600px) {
+  .chessboard {
+    grid-template-columns: repeat(8, 35px);
+    grid-template-rows: repeat(8, 35px);
+    box-shadow: 3px 8px 10px 3px var(--black-hover);
+    margin: 0 auto;
+  }
+
+  .chessboard div {
+    border: 1px solid var(--brown);
+  }
+
+  .main-container {
+    padding: 1em;
+  }
+
+  .header .hero {
+    font-size: 1.8em;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.4em;
+  }
+
+  #modalContent {
+    font-size: 1.2rem;
+    padding: 15px;
+  }
+}
