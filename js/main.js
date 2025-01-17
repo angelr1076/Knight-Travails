@@ -6,9 +6,11 @@ const endDiv = document.querySelector('#endPosition');
 const modalContainer = document.querySelector('#modalContainer');
 const modalContent = document.querySelector('#modalContent');
 const modalButton = document.querySelector('#modalButton');
+const yearElement = document.getElementById('year');
 let startPos = null;
 let endPos = null;
 
+yearElement.textContent = new Date().getFullYear();
 // Chessboard DOM
 const chessBoardDOM = () => {
   const squares = Array.from({ length: 8 }, (_, row) =>
